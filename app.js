@@ -1,4 +1,4 @@
-// Xử lý kiểm tra mật khẩu tại trang đăng nhập
+// Xử lý kiểm tra License tại trang đăng nhập
 
 async function sha256(message) {
   const msgBuffer = new TextEncoder().encode(message);
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusMsg = document.getElementById("status-message");
   const submitBtn = document.getElementById("submit-btn");
 
-  // Toggle ẩn/hiện mật khẩu
+  // Toggle ẩn/hiện License
   if (toggleBtn) {
     toggleBtn.addEventListener("click", () => {
       const isPassword = passwordInput.getAttribute("type") === "password";
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const enteredPass = passwordInput.value.trim();
 
     if (!enteredPass) {
-      showMessage("Vui lòng nhập mật khẩu!", "error");
+      showMessage("Vui lòng nhập License!", "error");
       return;
     }
 
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const enteredHash = await sha256(enteredPass);
 
-      // Kiểm tra mật khẩu có nằm trong danh sách Plaintext hoặc Hash không
+      // Kiểm tra License có nằm trong danh sách Plaintext hoặc Hash không
       const isPlainMatch = Array.isArray(CONFIG.allowedPasswords) && CONFIG.allowedPasswords.includes(enteredPass);
       const isHashMatch = Array.isArray(CONFIG.allowedHashes) && CONFIG.allowedHashes.includes(enteredHash);
 
@@ -53,13 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionStorage.setItem("access_authorized", "true");
         sessionStorage.setItem("auth_time", Date.now().toString());
 
-        showMessage("Mật khẩu chính xác! Đang chuyển hướng...", "success");
+        showMessage("License chính xác! Đang chuyển hướng...", "success");
 
         setTimeout(() => {
           window.location.href = "./download.html";
         }, 600);
       } else {
-        showMessage("Mật khẩu không đúng. Vui lòng thử lại!", "error");
+        showMessage("License không đúng. Vui lòng thử lại!", "error");
         form.classList.add("shake");
         setTimeout(() => form.classList.remove("shake"), 500);
         passwordInput.focus();
