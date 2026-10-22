@@ -10,10 +10,18 @@ const CONFIG = {
   // Danh sách mật khẩu dạng thường (Plaintext)
   // Chỉ cần đúng 1 trong các mật khẩu này là vào được
   allowedPasswords: [
-    "matkhau123",
-    "vip2026",
-    "download888",
-    "secret_key_1"
+    //Bang
+    "2075877456",//2026-11-21
+    "237503653",//2026-11-25
+	//Tộc
+    "492596129",//2027-03-14
+    "2352501460",//2026-12-27
+	//Máy
+	"a9bc607a",//2026-12-31
+	"2d98456a",//2027-04-11
+	"d40139cd",//2027-12-31
+	"fa8e018d",//2027-12-31
+	"6274d32e"//2027-10-20
   ],
 
   // Danh sách mã băm SHA-256 tương ứng (Tùy chọn thêm để tăng bảo mật)
