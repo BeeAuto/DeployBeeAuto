@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tạo Mã SHA-256 Cho Mật Khẩu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .hash-output {
+      word-break: break-all;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 12px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: #38bdf8;
+      border: 1px dashed rgba(56, 189, 248, 0.3);
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-decorations">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <main class="container">
+    <div class="card glass">
+      <div class="card-header">
+        <div class="icon-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </div>
+        <h1>Công Cụ Tạo Mã SHA-256</h1>
+        <p class="subtitle">Dùng để tạo chuỗi băm bảo mật dán vào file <code>passwords.js</code>.</p>
+      </div>
+
+      <div class="form-group">
+        <div class="input-wrapper">
+          <input 
+            type="text" 
+            id="text-input" 
+            placeholder="Nhập mật khẩu muốn tạo hash..." 
+            autofocus
+          >
+        </div>
+
+        <div id="result-box" style="display: none;">
+          <label style="font-size: 0.85rem; color: var(--text-muted);">Mã băm SHA-256 tương ứng:</label>
+          <div id="hash-text" class="hash-output"></div>
+          <button id="copy-btn" class="btn btn-secondary" style="margin-top: 8px;">Sao chép mã hash</button>
+        </div>
+
+        <a href="./index.html" class="btn btn-secondary" style="margin-top: 12px;">← Quay về trang đăng nhập</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    const input = document.getElementById("text-input");
+    const resultBox = document.getElementById("result-box");
+    const hashText = document.getElementById("hash-text");
+    const copyBtn = document.getElementById("copy-btn");
+
+    input.addEventListener("input", async () => {
+      const val = input.value.trim();
+      if (!val) {
+        resultBox.style.display = "none";
+        return;
+      }
+      const hash = await sha256(val);
+      hashText.textContent = hash;
+      resultBox.style.display = "block";
+    });
+
+    copyBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText(hashText.textContent);
+      copyBtn.textContent = "Đã sao chép!";
+      setTimeout(() => copyBtn.textContent = "Sao chép mã hash", 2000);
+    });
+  </script>
+</body>
+</html>
